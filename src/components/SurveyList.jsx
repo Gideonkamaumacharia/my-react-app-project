@@ -1,37 +1,52 @@
-// src/components/SurveyList.jsx
+import React, { useEffect, useState } from 'react';
+import Login from './Login';
 
-import React, { useState, useEffect } from 'react';
-
-function SurveyList() {
+const SurveyList = () => {
   const [surveys, setSurveys] = useState([]);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
-    fetchSurveys();
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      setLoggedIn(true);
+      fetchSurveys(); 
+    }
   }, []);
 
-  const fetchSurveys = () => {
-    fetch('http://127.0.0.1:5000/surveys')
-      .then(response => response.json())
-      .then(data => {
-        setSurveys(data);
-      })
-      .catch(error => {
-        console.error('Error fetching surveys:', error);
+  const fetchSurveys = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:5000/surveys', {
+        headers: {
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).token}`,
+        },
       });
+      if (response.ok) {
+        const surveyData = await response.json();
+        setSurveys(surveyData);
+      } else {
+        console.error('Failed to fetch surveys');
+      }
+    } catch (error) {
+      console.error('Error fetching surveys:', error);
+    }
   };
 
   return (
     <div>
-      <h2>Survey List</h2>
-      <ul>
-        {surveys.map(survey => (
-          <li key={survey.id}>
-            <strong>{survey.title}</strong> - {survey.description}
-          </li>
-        ))}
-      </ul>
+      {loggedIn ? (
+        <div>
+          <h2>Surveys</h2>
+          <ul>
+            {surveys.map((survey) => (
+              <li key={survey.id}>{survey.title}</li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <Login setLoggedIn={setLoggedIn} />
+      )}
     </div>
   );
-}
+};
 
 export default SurveyList;

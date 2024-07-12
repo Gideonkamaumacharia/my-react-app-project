@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+
 const Login = ({ setLoggedIn }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -38,6 +39,7 @@ const Login = ({ setLoggedIn }) => {
   };
 
   return (
+    <>
     <div>
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
@@ -61,6 +63,10 @@ const Login = ({ setLoggedIn }) => {
       </form>
       {error && <p>{error}</p>}
     </div>
+  
+
+    </>
+    
   );
 };
 
