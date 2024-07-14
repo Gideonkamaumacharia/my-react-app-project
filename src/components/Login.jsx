@@ -1,8 +1,9 @@
+// frontend/src/components/Login.jsx
+
 import React, { useState } from 'react';
 
-
 const Login = ({ setLoggedIn }) => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
@@ -15,7 +16,7 @@ const Login = ({ setLoggedIn }) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ email, password }),
       });
 
       if (response.ok) {
@@ -23,15 +24,15 @@ const Login = ({ setLoggedIn }) => {
         localStorage.setItem('user', JSON.stringify(userData));
         setLoggedIn(true);
       } else {
-        setError('Invalid username or password');
+        setError('Invalid email or password');
       }
     } catch (error) {
       setError('Error logging in');
     }
   };
 
-  const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
   };
 
   const handlePasswordChange = (e) => {
@@ -39,16 +40,15 @@ const Login = ({ setLoggedIn }) => {
   };
 
   return (
-    <>
     <div>
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Username:</label>
+          <label>Email:</label>
           <input
-            type="text"
-            value={username}
-            onChange={handleUsernameChange}
+            type="email"
+            value={email}
+            onChange={handleEmailChange}
           />
         </div>
         <div>
@@ -63,10 +63,6 @@ const Login = ({ setLoggedIn }) => {
       </form>
       {error && <p>{error}</p>}
     </div>
-  
-
-    </>
-    
   );
 };
 

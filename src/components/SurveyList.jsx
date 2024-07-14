@@ -1,25 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import Login from './Login';
+// frontend/src/components/SurveyList.jsx
 
-const SurveyList = () => {
+import React, { useState, useEffect } from 'react';
+
+const SurveyList = ({ loggedIn }) => {
   const [surveys, setSurveys] = useState([]);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [selectedSurvey, setSelectedSurvey] = useState(null);
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (user) {
-      setLoggedIn(true);
-      fetchSurveys(); 
-    }
+    fetchSurveys();
   }, []);
 
   const fetchSurveys = async () => {
     try {
       const response = await fetch('http://127.0.0.1:5000/surveys', {
         headers: {
-          Authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).token}`,
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).access_token}`,
         },
       });
+
       if (response.ok) {
         const surveyData = await response.json();
         setSurveys(surveyData);
@@ -31,19 +29,25 @@ const SurveyList = () => {
     }
   };
 
+  const handleSurveySelect = (survey) => {
+    setSelectedSurvey(survey);
+    // Fetch questions related to selected survey
+    // Implement fetching questions logic here
+  };
+
   return (
     <div>
+      <h2>Surveys</h2>
       {loggedIn ? (
-        <div>
-          <h2>Surveys</h2>
-          <ul>
-            {surveys.map((survey) => (
-              <li key={survey.id}>{survey.title}</li>
-            ))}
-          </ul>
-        </div>
+        <ul>
+          {surveys.map((survey) => (
+            <li key={survey.id} onClick={() => handleSurveySelect(survey)}>
+              {survey.title}
+            </li>
+          ))}
+        </ul>
       ) : (
-        <Login setLoggedIn={setLoggedIn} />
+        <p>Please log in to view surveys.</p>
       )}
     </div>
   );

@@ -1,37 +1,43 @@
-// src/components/ParticipantList.jsx
+// frontend/src/components/ParticipantList.jsx
 
 import React, { useState, useEffect } from 'react';
 
-function ParticipantList() {
+const ParticipantList = () => {
   const [participants, setParticipants] = useState([]);
 
   useEffect(() => {
     fetchParticipants();
   }, []);
 
-  const fetchParticipants = () => {
-    fetch('http://127.0.0.1:5000/participants')
-      .then(response => response.json())
-      .then(data => {
-        setParticipants(data);
-      })
-      .catch(error => {
-        console.error('Error fetching participants:', error);
+  const fetchParticipants = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:5000/participants', {
+        headers: {
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).access_token}`,
+        },
       });
+
+      if (response.ok) {
+        const participantData = await response.json();
+        setParticipants(participantData);
+      } else {
+        console.error('Failed to fetch participants');
+      }
+    } catch (error) {
+      console.error('Error fetching participants:', error);
+    }
   };
 
   return (
     <div>
-      <h2>Participant List</h2>
+      <h2>Participants</h2>
       <ul>
-        {participants.map(participant => (
-          <li key={participant.id}>
-            <strong>User ID:</strong> {participant.user_id} - <strong>Survey ID:</strong> {participant.survey_id}
-          </li>
+        {participants.map((participant) => (
+          <li key={participant.id}>{participant.username}</li>
         ))}
       </ul>
     </div>
   );
-}
+};
 
 export default ParticipantList;
