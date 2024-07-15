@@ -1,82 +1,88 @@
-// frontend/src/components/Register.jsx
-
 import React, { useState } from 'react';
+import Login from './Login';
 
-const Register = ({ setLoggedIn }) => {
+function Register({ setLoggedIn }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
 
-  const handleSubmit = async (e) => {
+  function handleSubmit(e) {
     e.preventDefault();
 
-    try {
-      const response = await fetch('http://127.0.0.1:5000/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password, email }),
-      });
-
+    fetch('http://127.0.0.1:5000/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password, email }),
+    })
+    .then(function(response) {
       if (response.ok) {
-        const userData = await response.json();
-        localStorage.setItem('user', JSON.stringify(userData));
-        setLoggedIn(true);
+        return response.json();
       } else {
-        setError('Failed to register');
+        throw new Error('Failed to register');
       }
-    } catch (error) {
+    })
+    .then(function(userData) {
+      localStorage.setItem('user', JSON.stringify(userData));
+      setLoggedIn(true);
+    })
+    .catch(function(error) {
       setError('Error registering');
-    }
-  };
+    });
+  }
 
-  const handleUsernameChange = (e) => {
+  function handleUsernameChange(e) {
     setUsername(e.target.value);
-  };
+  }
 
-  const handlePasswordChange = (e) => {
+  function handlePasswordChange(e) {
     setPassword(e.target.value);
-  };
+  }
 
-  const handleEmailChange = (e) => {
+  function handleEmailChange(e) {
     setEmail(e.target.value);
-  };
+  }
 
   return (
-    <div>
-      <h2>Register</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Username:</label>
-          <input
-            type="text"
-            value={username}
-            onChange={handleUsernameChange}
-          />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={handlePasswordChange}
-          />
-        </div>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={handleEmailChange}
-          />
-        </div>
-        <button type="submit">Register</button>
-      </form>
-      {error && <p>{error}</p>}
-    </div>
+    <>
+      <div>
+        <h2>Register</h2>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>Username:</label>
+            <input
+              type="text"
+              autoComplete="username"
+              value={username}
+              onChange={handleUsernameChange}
+            />
+          </div>
+          <div>
+            <label>Password:</label>
+            <input
+              type="password"
+              autoComplete="new-password" 
+              value={password}
+              onChange={handlePasswordChange}
+            />
+          </div>
+          <div>
+            <label>Email:</label>
+            <input
+              type="email"
+              value={email}
+              onChange={handleEmailChange}
+            />
+          </div>
+          <button type="submit">Register</button>
+        </form>
+        {error && <p>{error}</p>}
+      </div>
+      <Login/>
+    </>
   );
-};
+}
 
 export default Register;
