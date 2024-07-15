@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import ContactUs from './ContactUs';
-import Home from './Home'
-import AboutUs from './AboutUs'
-import Register from './Register'
-import Login from './Login'
+import ContactUs from '../pages/ContactUs';
+import Home from '../pages/Home'
+import AboutUs from '../pages/AboutUs'
+import Register from '../pages/Register'
+import Login from '../pages/Login'
 
 
 
@@ -31,11 +31,7 @@ function Navbar() {
             </li>
         </ul>
         </nav>
-        <Home/>
-        <AboutUs/>
-        <ContactUs/>
-        <Register/>
-        <Login/>
+        
     </>
     
   );

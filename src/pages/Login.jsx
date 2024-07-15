@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import UserList from './UserList';
-import SurveyList from './SurveyList';
-import QuestionList from './QuestionList';
-import ParticipantList from './ParticipantList';
+import UserList from '../components/UserList';
+import SurveyList from '../components/SurveyList';
+import QuestionList from '../components/QuestionList';
+import ParticipantList from '../components/ParticipantList';
 
 
 const Login = ({ setLoggedIn }) => {

@@ -1,13 +1,11 @@
-// src/App.jsx
-
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Register from './components/Register'
-import { BrowserRouter as Route,Router, Routes } from 'react-router-dom';
-import ContactUs from './components/ContactUs';
-import Home from './components/Home'
-import AboutUs from './components/AboutUs'
-import Login from './components/Login'
+import Home from './pages/Home';
+import AboutUs from './pages/AboutUs';
+import ContactUs from './pages/ContactUs';
+import Register from './pages/Register';
+import Login from './pages/Login';
 
 const App = () => {
   return (
@@ -16,16 +14,19 @@ const App = () => {
       <div>
         <Navbar />
         <Routes>
-          <Route path="/" exact component={Home} />
-          <Route path="/about" component={AboutUs} />
-          <Route path="/register" component={Register} />
-          <Route path="/login" component={Login} />
-          <Route path="/contact" component={ContactUs} />
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/contact" element={<ContactUs />} />
         </Routes>
       </div>
       </Router>
-    
-      <Navbar/>
+        <Home/>
+        <AboutUs/>
+        <ContactUs/>
+        <Register/>
+        <Login/>
     </>
     
   );
