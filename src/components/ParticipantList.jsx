@@ -1,32 +1,31 @@
-// frontend/src/components/ParticipantList.jsx
-
 import React, { useState, useEffect } from 'react';
 
-const ParticipantList = () => {
+function ParticipantList() {
   const [participants, setParticipants] = useState([]);
 
   useEffect(() => {
     fetchParticipants();
   }, []);
 
-  const fetchParticipants = async () => {
-    try {
-      const response = await fetch('http://127.0.0.1:5000/participants', {
-        headers: {
-          Authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).access_token}`,
-        },
-      });
-
-      if (response.ok) {
-        const participantData = await response.json();
+  function fetchParticipants() {
+    fetch('http://127.0.0.1:5000/participants', {
+      headers: {
+        Authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).access_token}`,
+      },
+    })
+      .then(function(response) {
+        if (!response.ok) {
+          throw new Error('Failed to fetch participants');
+        }
+        return response.json();
+      })
+      .then(function(participantData) {
         setParticipants(participantData);
-      } else {
-        console.error('Failed to fetch participants');
-      }
-    } catch (error) {
-      console.error('Error fetching participants:', error);
-    }
-  };
+      })
+      .catch(function(error) {
+        console.error('Error fetching participants:', error);
+      });
+  }
 
   return (
     <div>
@@ -38,6 +37,6 @@ const ParticipantList = () => {
       </ul>
     </div>
   );
-};
+}
 
 export default ParticipantList;

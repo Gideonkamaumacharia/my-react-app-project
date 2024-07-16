@@ -43,7 +43,7 @@ const Login = ({ setLoggedIn }) => {
   };
 
   return (
-    <div>
+    <div className='container'>
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <div>

@@ -6,6 +6,8 @@ import AboutUs from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
 import Register from './pages/Register';
 import Login from './pages/Login';
+import SurveyList from './components/SurveyList';
+import './App.css'
 
 const App = () => {
   return (
@@ -27,6 +29,7 @@ const App = () => {
         <ContactUs/>
         <Register/>
         <Login/>
+        <SurveyList/>
     </>
     
   );
