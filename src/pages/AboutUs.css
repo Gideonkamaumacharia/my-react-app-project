@@ -1,0 +1,47 @@
+.about-us-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .about-us-header {
+    font-size: 36px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .about-us-mission {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .about-us-subheader {
+    font-size: 24px;
+    color: #333;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .about-us-text {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  
+  .about-us-values {
+    list-style-type: none;
+    padding: 0;
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  
+  .about-us-values li {
+    margin-bottom: 10px;
+  }
+  
